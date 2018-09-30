@@ -2,7 +2,7 @@
 /**
  * copyright http://git.oschina.net/jiusem/PHPPage
  */
-namespace ppphp;
+namespace Ppphp;
 
 
 class page{

@@ -1,8 +1,8 @@
 <?php
 
-namespace ppphp;
+namespace Ppphp;
 
-trait view
+trait View
 {
 
     /**
@@ -21,7 +21,7 @@ trait view
         if (is_file(APP . 'views/' . $file)) {
             \Twig_Autoloader::register();
             $loader = new \Twig_Loader_Filesystem(APP . 'views/');
-            $twig = new \Twig_Environment($loader, [
+            $twig   = new \Twig_Environment($loader, [
                 'cache' => PPPHP . '/log/twig_cache',
                 'debug' => DEBUG,
             ]);

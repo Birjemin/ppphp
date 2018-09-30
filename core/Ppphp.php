@@ -9,7 +9,7 @@
  * 引入视图
  * ======================================================================== */
 
-class ppphp
+class Ppphp
 {
     /**
      * model用于存放已经加载的model模型,下次加载时直接返回
@@ -23,11 +23,12 @@ class ppphp
 
     /**
      * 自动加载类
+     *
      * @param string $class 需要加载的类,需要带上命名空间
      */
     public static function load($class)
     {
-        $class = str_replace('\\', '/', trim($class, '\\'));
+        $class = str_replace('\\', '/', trim(ucfirst($class), '\\'));
         if (is_file(CORE . $class . '.php')) {
             include_once CORE . $class . '.php';
         } else {
@@ -45,11 +46,11 @@ class ppphp
     public static function run()
     {
         self::init();
-        $request = new \ppphp\route();
+        $request = new \Ppphp\Route();
 
         $ctrlClass = '\\' . MODULE . '\ctrl\\' . $request->ctrl . 'Ctrl';
-        $action = $request->action;
-        $ctrlFile = APP . 'ctrl/' . $request->ctrl . 'Ctrl.php';
+        $action    = $request->action;
+        $ctrlFile  = APP . 'ctrl/' . $request->ctrl . 'Ctrl.php';
 
         if (is_file($ctrlFile)) {
             include $ctrlFile;
@@ -60,13 +61,10 @@ class ppphp
                 show404();
             }
         }
+        // 走路由
         $ctrl = new $ctrlClass();
-        //如果开启restful,那么加载方法时带上请求类型
-        if (\ppphp\conf::get('OPEN_RESTFUL', 'system')) {
-            $action = strtolower($request->method()) . ucfirst($action);
-        }
 
-        if(method_exists($ctrl,$action)) {
+        if (method_exists($ctrl, $action)) {
             $ctrl->$action();
         } else {
             if (DEBUG) {
@@ -81,12 +79,11 @@ class ppphp
     protected static function init()
     {
         //环境配置
-        \ppphp\env::init();
-
+        \Ppphp\Env::init();
         //日志
-        \ppphp\log::init();
-
-        \ppphp\model::init();
+        \Ppphp\Log::init();
+        // model
+        \Ppphp\Model::init();
     }
 
 }

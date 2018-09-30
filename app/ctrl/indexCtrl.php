@@ -2,17 +2,18 @@
 /**
  * 示例控制器
  */
-namespace app\ctrl;
+
+namespace App\Ctrl;
 
 
-use ppphp\conf;
-use ppphp\log;
-use ppphp\view;
+use Ppphp\Conf;
+use Ppphp\Log;
+use Ppphp\View;
 use think\Db;
 
-class indexCtrl extends \ppphp
+class indexCtrl extends \Ppphp
 {
-    use view;
+    use View;
 
     public function index()
     {
@@ -22,13 +23,13 @@ class indexCtrl extends \ppphp
     public function log()
     {
         $log = conf::all('route');
-        log::error("error",$log);
+        log::error("error", $log);
     }
 
     public function getDb()
     {
         $ret = Db::query("show databases");
 
-        dump($ret);
+        dump([$_GET]);
     }
 }

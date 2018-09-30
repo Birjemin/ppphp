@@ -4,7 +4,7 @@
  * ppphp cli模式核心类
  * ======================================================================== */
 
-class ppphp_cli extends ppphp
+class Ppphp_cli extends Ppphp
 {
     public static function run()
     {
@@ -17,7 +17,7 @@ class ppphp_cli extends ppphp
         //加载脚本
         $shellFile = "common\\shell\\{$shellName}";
         try {
-            if(file_exists(str_replace('\\', '/', trim(PPPHP.'/'.$shellFile.'.php', '\\')))) {
+            if (file_exists(str_replace('\\', '/', trim(PPPHP . '/' . $shellFile . '.php', '\\')))) {
                 $shell = new $shellFile($argv);
                 $shell->start();
             } else {

@@ -2,14 +2,20 @@
 /* ========================================================================
  * env 系统环境类
  * ======================================================================== */
-namespace ppphp;
+
+namespace Ppphp;
 
 
 use Dotenv\Dotenv;
 
-class env
+/**
+ * Class Env
+ * @package Ppphp
+ */
+class Env
 {
-    public static function init() {
+    public static function init()
+    {
         $dotenv = new Dotenv(PPPHP);
         $dotenv->load();
     }

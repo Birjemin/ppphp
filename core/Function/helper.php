@@ -19,7 +19,7 @@ function p($var)
         if (is_bool($var)) {
             var_dump($var);
         } else if (is_null($var)) {
-            var_dump(NULL);
+            var_dump(null);
         } else {
             echo "<pre style='position:relative;z-index:1000;padding:10px;border-radius:5px;background:#F5F5F5;border:1px solid #aaa;font-size:14px;line-height:18px;opacity:0.9;'>" . print_r($var, true) . "</pre>";
         }
@@ -29,11 +29,11 @@ function p($var)
 function debug(...$var)
 {
     if (function_exists('dump')) {
-        array_walk($var, function ($v) {
+        array_walk($var, function($v) {
             dump($v);
         });
     } else {
-        array_walk($var, function ($v) {
+        array_walk($var, function($v) {
             print_r($v);
         });
     }
@@ -47,64 +47,59 @@ function is_cli()
 
 /**
  * 获取get数据
- * @param string $str 变量名
+ *
+ * @param string $key    变量名
  * @param string $filter 过滤方式 int为只支持int类型
- * @param string $default 默认值 当获取不到值时,所返回的默认值
- * @return mix
+ * @param mixed $default 默认值 当获取不到值时,所返回的默认值
+ *
+ * @return mixed
  */
-function get($str = 'false', $filter = '', $default = false)
+function get($key = '', $filter = '', $default = null)
 {
-    if ($str !== false) {
-        $return = isset($_GET[$str]) ? $_GET[$str] : false;
-        if ($return) {
-            switch ($filter) {
-                case 'int':
-                    if (!is_numeric($return)) {
-                        return $default;
-                    }
-                    break;
-                default:
-                    $return = htmlspecialchars($return);
-
-            }
-            return $return;
-        } else {
-            return $default;
-        }
-    } else {
-        return $_GET;
-    }
+    return getRequstParams($_GET, $key, $filter, $default);
 }
 
 /**
  * 获取post数据
- * @param $str 变量名
- * @param $filter 过滤方式 int为只支持int类型
- * @param $default 默认值 当获取不到值时,所返回的默认值
- * @return mix
+ *
+ * @param string $key    变量名
+ * @param string $filter 过滤方式 int为只支持int类型
+ * @param mixed $default 默认值 当获取不到值时,所返回的默认值
+ *
+ * @return mixed
  */
-function post($str = false, $filter = '', $default = false)
+function post($key = '', $filter = '', $default = null)
 {
-    if ($str !== false) {
-        $return = isset($_POST[$str]) ? $_POST[$str] : false;
-        if ($return !== false) {
-            switch ($filter) {
-                case 'int':
-                    if (!is_numeric($return)) {
-                        return $default;
-                    }
-                    break;
-                default:
-                    $return = htmlspecialchars($return);
+    return getRequstParams($_POST, $key, $filter, $default);
+}
 
-            }
-            return $return;
-        } else {
-            return $default;
-        }
-    } else {
-        return $_POST;
+/**
+ * @param $params
+ * @param $key
+ * @param $filter
+ * @param $default
+ *
+ * @return null|string
+ */
+function getRequstParams($params, $key, $filter, $default)
+{
+    if (empty($key)) {
+        return $params;
     }
+    $return = isset($params[$key]) ? $params[$key] : null;
+    if (!$return) {
+        return $default;
+    }
+    switch ($filter) {
+        case 'int':
+            if (!is_numeric($return)) {
+                return $default;
+            }
+            break;
+        default:
+            $return = htmlspecialchars($return);
+    }
+    return $return;
 }
 
 function redirect($str)

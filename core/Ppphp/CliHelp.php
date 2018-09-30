@@ -1,14 +1,14 @@
 <?php
-namespace ppphp;
+namespace Ppphp;
 
-class cliHelp
+class CliHelp
 {
     public function newCtrl($file)
     {
         return "<?php
 namespace ".MODULE."\\ctrl;
 
-class ".$file." extends \\ppphp
+class ".$file." extends \\Ppphp
 {
     public function index()
     {
